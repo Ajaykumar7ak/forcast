@@ -17,8 +17,8 @@ turbine_radius = 20  # Radius of the turbine in meters (adjust based on your tur
 def fetch_live_data():
     url = "https://api.open-meteo.com/v1/forecast"
     params = {
-        "latitude": 9.5722,  # Latitude for your location (9°34'20"N)
-        "longitude": 77.6758,  # Longitude for your location (77°40'33"E)
+        "latitude": 9.5722, 
+        "longitude": 77.6758,  
         "hourly": "temperature_2m,relativehumidity_2m,dewpoint_2m,windspeed_10m,windspeed_100m,winddirection_10m,winddirection_100m,windgusts_10m",
         "timezone": "Asia/Kolkata"
     }
@@ -33,7 +33,7 @@ def preprocess_live_data(live_data, scaler):
                 'windspeed_10m', 'windspeed_100m', 'winddirection_10m', 
                 'winddirection_100m', 'windgusts_10m']
     
-    # Ensure the live data is in the correct format for the scaler
+    
     scaled_data = scaler.transform(df_live[features])
     
     return scaled_data
@@ -45,9 +45,9 @@ def calculate_power(windspeed):
         windspeed = float(windspeed)
         
         if windspeed < 0:
-            return 0  # Power is zero for negative wind speeds (invalid data)
+            return 0  
         
-        # Use the formula to calculate power from wind speed
+        # Using the formula to calculate power from wind speed
         swept_area = np.pi * turbine_radius**2  # Area of the turbine blades
         power = 0.5 * rho * swept_area * (windspeed**3)  # Power in watts
         power_kw = power / 1000  # Convert to kilowatts
